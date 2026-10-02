@@ -17,5 +17,8 @@ node_modules/
 # IDE
 .vscode/
 
+# Generated vector database
+knowledge-base/vector_store/
+
 # Notes
 notes.txt

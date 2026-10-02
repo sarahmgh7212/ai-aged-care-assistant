@@ -1,0 +1,44 @@
+[
+  {
+    "id": "Q1",
+    "question": "What rights do older people have when receiving aged care?",
+    "answerable": true,
+    "expected_keywords": ["rights", "respect", "choice"]
+  },
+  {
+    "id": "Q2",
+    "question": "What can I do if I am unhappy with the care I receive?",
+    "answerable": true,
+    "expected_keywords": ["complaint", "feedback"]
+  },
+  {
+    "id": "Q3",
+    "question": "How should aged care providers treat older people?",
+    "answerable": true,
+    "expected_keywords": ["dignity", "respect"]
+  },
+  {
+    "id": "Q4",
+    "question": "What responsibilities do aged care providers have?",
+    "answerable": true,
+    "expected_keywords": ["provider", "care", "quality"]
+  },
+  {
+    "id": "Q5",
+    "question": "How should a provider support an older person's choices?",
+    "answerable": true,
+    "expected_keywords": ["choice", "preferences"]
+  },
+  {
+    "id": "Q6",
+    "question": "How do I change the oil in my car?",
+    "answerable": false,
+    "expected_keywords": []
+  },
+  {
+    "id": "Q7",
+    "question": "What is the weather forecast for tomorrow?",
+    "answerable": false,
+    "expected_keywords": []
+  }
+]
