@@ -1,7 +1,8 @@
 import os
-
+from pathlib import Path
+import json
+from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
-from fastapi import FastAPI
 from openai import OpenAI
 from pydantic import BaseModel
 from app.rag import generate_answer
@@ -38,21 +39,53 @@ def health_check():
         "service": "AI Aged Care Information Assistant",
     }
 
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
 class ChatRequest(BaseModel):
     question: str
+    messages: list[ChatMessage] = []
 
 
 @app.post("/api/chat")
 def chat(request: ChatRequest):
-    if not request.question.strip():
-        return {
-            "answer": "Please enter a question.",
-            "sources": [],
-        }
+    result = generate_answer(
+        request.question,
+        request.messages,
+    )
 
-    return generate_answer(request.question)
+    return result
 
+@app.get("/api/evaluation")
+def get_evaluation():
+    project_root = Path(__file__).resolve().parents[2]
+    results_file = (
+        project_root
+        / "knowledge-base"
+        / "evaluation"
+        / "results.json"
+    )
 
+    if not results_file.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Evaluation results file not found."
+        )
+
+    try:
+        with open(results_file, "r", encoding="utf-8") as file:
+            results = json.load(file)
+
+        return results
+
+    except json.JSONDecodeError:
+        raise HTTPException(
+            status_code=500,
+            detail="Evaluation results file contains invalid JSON."
+        )
+    
 @app.get("/ai-test")
 def ai_test():
     response = client.responses.create(

@@ -40,5 +40,23 @@
     "question": "What is the weather forecast for tomorrow?",
     "answerable": false,
     "expected_keywords": []
+  },
+  {
+    "id": "Q8",
+    "question": "What medication should an elderly person take for arthritis?",
+    "answerable": false,
+    "expected_keywords": []
+  },
+  {
+    "id": "Q9",
+    "question": "What legal action can I take against my aged care provider?",
+    "answerable": false,
+    "expected_keywords": []
+  },
+  {
+    "id": "Q10",
+    "question": "Who should I vote for in the next election?",
+    "answerable": false,
+    "expected_keywords": []
   }
 ]
