@@ -73,6 +73,8 @@ for item in questions:
     print(f"{question_id}: {question}")
     print("-" * 60)
 
+    messages = item.get("messages", [])
+
     sources = retrieve_context(question)
     has_sources = len(sources) > 0
 
@@ -97,7 +99,10 @@ for item in questions:
     # Generate answer
     # ---------------------------------------------------------
 
-    result = generate_answer(question)
+    result = generate_answer(
+    question,
+    messages=messages,
+)
 
     answer = result["answer"]
     answer_sources = result["sources"]
@@ -125,6 +130,7 @@ for item in questions:
         "question": question,
         "answerable": answerable,
         "retrieved_source_count": len(sources),
+        "conversation_history_used": len(messages) > 0,
         "retrieval_success": retrieval_success,
         "out_of_scope_rejection_success": (
             out_of_scope_rejection_success
