@@ -34,8 +34,23 @@ collection = chroma_client.get_collection(
 )
 
 
-EMBEDDING_MODEL = "text-embedding-3-small"
-CHAT_MODEL = "gpt-5-mini"
+EMBEDDING_MODEL = os.getenv(
+    "EMBEDDING_MODEL",
+    "text-embedding-3-small",
+)
+
+CHAT_MODEL = os.getenv(
+    "CHAT_MODEL",
+    "gpt-5-mini",
+)
+
+RAG_TOP_K = int(
+    os.getenv("RAG_TOP_K", "5")
+)
+
+RAG_MAX_DISTANCE = float(
+    os.getenv("RAG_MAX_DISTANCE", "0.6")
+)
 
 
 # Retrieve relevant knowledge
@@ -127,15 +142,21 @@ Rewrite the current question as a standalone search query.
 
 def retrieve_context(
     question: str,
-    top_k: int = 5,
-    max_distance: float = 0.6,
+    top_k: int | None = None,
+    max_distance: float | None = None,
 ):
     """
     Retrieve relevant chunks from the aged care knowledge base.
 
     A lower Chroma distance indicates greater similarity.
-    Results above max_distance are discarded.
+    Results above the configured maximum distance are discarded.
     """
+
+    if top_k is None:
+        top_k = RAG_TOP_K
+
+    if max_distance is None:
+        max_distance = RAG_MAX_DISTANCE
 
 
     embedding_response = client.embeddings.create(
@@ -264,7 +285,7 @@ Retrieved evidence:
 """
 
     response = client.responses.create(
-        model="gpt-5-mini",
+        model=CHAT_MODEL,
         instructions=system_prompt,
         input=user_prompt,
     )

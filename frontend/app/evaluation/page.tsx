@@ -60,7 +60,9 @@ export default function EvaluationPage() {
   useEffect(() => {
     const loadResults = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/evaluation');
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + '/api/evaluation',
+        );
 
         if (!response.ok) {
           throw new Error('Failed to load evaluation results.');
